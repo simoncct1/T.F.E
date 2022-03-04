@@ -7,10 +7,7 @@ let groundMirror, verticalMirror;
 const scene = new THREE.Scene();
 // scene.background = new THREE.Color( 0x464646 );
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const color = 0xFFFFFF;  // white
-const near = 10;
-const far = 100;
-scene.fog = new THREE.Fog(color, near, far);
+
 const renderer = new THREE.WebGLRenderer({
   canvas : document.querySelector('#flex'),
   alpha: true,
@@ -18,7 +15,22 @@ const renderer = new THREE.WebGLRenderer({
   antialias: true
 });
 
+let geometrye, materiale;
+const textureLoader = new THREE.TextureLoader();
+const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
+geometrye = new THREE.PlaneGeometry(50,50);
+const texture3 = textureLoader.load( "pu.png" );
+texture3.anisotropy = maxAnisotropy;
+texture3.wrapS = texture3.wrapT = THREE.RepeatWrapping;
+texture3.repeat.set(2,2);
 
+materiale = new THREE.MeshPhongMaterial({ color: 0X000000});
+materiale.metalness = 1;
+const floor = new THREE.Mesh( geometrye, materiale );
+floor.position.z = 1;
+floor.position.x = 2;
+floor.rotation.x= -Math.PI/2
+scene.add(floor);
 
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.shadowMap.enabled = true;
@@ -63,35 +75,41 @@ controls.update();
 		groundMirror.position.y = 0;
 groundMirror.position.x = 10;
 		groundMirror.rotateX( - Math.PI / 2 );
-		scene.add( groundMirror );
+		// scene.add( groundMirror );
 
 
 		
 
 		//ligths
 	var mainRGB = 0xed9d0b;
-	var intensity = 0.4;
+	var intensity = 0.3;
 material = new THREE.MeshPhongMaterial( { color: 0xffffff, emissive: 0x666666 } );
 const mainLight = new THREE.PointLight( mainRGB, intensity, 700 );
 		mainLight.position.y = 3.7;
 mainLight.position.z = -1.5;
 		scene.add( mainLight );
 
-		const mainLightElevator = new THREE.PointLight( mainRGB, intensity, 700 );
-		mainLightElevator.position.y = 8.5;
-		mainLightElevator.position.x = 6;
-		scene.add( mainLightElevator );
+		const mainLight22 = new THREE.PointLight( mainRGB, intensity, 1500 );
+		mainLight22.position.y = 12.7;
+mainLight22.position.z = -1.5;
+		scene.add( mainLight22 );
+
+		// const mainLightElevator = new THREE.PointLight( mainRGB, intensity, 700 );
+		// mainLightElevator.position.y = 8.5;
+		// mainLightElevator.position.x = 6;
+		// scene.add( mainLightElevator );
 
 		// const mainLightElevatorColored = new THREE.PointLight( mainRGB, intensity, 700 );
-		// mainLightElevatorColored.position.x = -3;
-		// mainLightElevatorColored.position.y = 3;
-		// mainLightElevatorColored.position.z = -3;
+		// mainLightElevatorColored.position.x = 6;
+		// mainLightElevatorColored.position.y = 15;
+		// mainLightElevatorColored.position.z = 1;
 		// scene.add( mainLightElevatorColored );
 
 
 		// const mainSuitcase = new THREE.PointLight( mainRGB, intensity, 700 );
-		// mainSuitcase.position.x = 6;
-		// mainSuitcase.position.z = -3.8;
+		// mainSuitcase.position.x = 2.5;
+		// mainSuitcase.position.z = 2.9;
+		// mainSuitcase.position.y = 2.9;
 		// scene.add( mainSuitcase );
 
 const alight = new THREE.AmbientLight( 0x404040, 3.5, 1800 ); // soft white light
@@ -102,13 +120,16 @@ scene.add( alight );
 
 const loader = new GLTFLoader();
 var wheel= new THREE.Object3D();
+var wheel2= new THREE.Object3D();
+var wheel3= new THREE.Object3D();
+var wheel4= new THREE.Object3D();
 var elevator= new THREE.Object3D();
 var wires= new THREE.Object3D();
 var suitcase= new THREE.Object3D();
 var wall= new THREE.Object3D();
 var glass= new THREE.Object3D();
 var chair= new THREE.Object3D();
-loader.load( 'untitled.glb', function ( gltf ) {
+loader.load( 'layingS.glb', function ( gltf ) {
 //   gltf.scene.scale.set(0.7, 0.7, 0.7);
 
 	scene.add( gltf.scene );
@@ -121,9 +142,10 @@ loader.load( 'untitled.glb', function ( gltf ) {
 
 loader.load( 'elevator.glb', function ( gltf ) {
 	elevator = gltf.scene;
-	gltf.scene.scale.set(1.7, 1.7, 1.7);
-	gltf.scene.position.x = 5;
+	
+	gltf.scene.position.x = 6;
 	gltf.scene.position.y = -0.18;
+	gltf.scene.position.z = 0.7;
 	elevator.rotation.y = Math.PI;
 	  scene.add( gltf.scene );
 
@@ -133,31 +155,61 @@ loader.load( 'elevator.glb', function ( gltf ) {
 	  console.error( error );
   
   } );
-  loader.load( 'wheel.glb', function ( gltf ) {
-	  wheel = gltf.scene;
-	// gltf.scene.scale.set(1.5, 1.5, 1.5);
-	gltf.scene.position.x = 6;
-	gltf.scene.position.y = 6;
-	  scene.add( gltf.scene );
+//   loader.load( 'wheel.glb', function ( gltf ) {
+// 	  wheel = gltf.scene;
+// 	  gltf.scene.scale.set(0.8, 0.8, 0.8);
+// 	gltf.scene.position.x = 6.2;
+// 	gltf.scene.position.y = 9;
+// 	gltf.scene.position.z = 0.7;
+// 	  scene.add( gltf.scene );
   
-  }, undefined, function ( error ) {
+//   }, undefined, function ( error ) {
   
-	  console.error( error );
+// 	  console.error( error );
   
-  } );
-  loader.load( 'wires.glb', function ( gltf ) {
-	wires = gltf.scene;
-  gltf.scene.scale.set(1.45, 1	, 1);
-  gltf.scene.position.x = 6;
-  gltf.scene.position.z = 0.1;
-  gltf.scene.position.y = 3.1;
-	scene.add( gltf.scene );
+//   } );
+//   loader.load( 'wheel.glb', function ( gltf ) {
+// 	wheel3 = gltf.scene;
 
-}, undefined, function ( error ) {
+//   gltf.scene.position.x = 6.5;
+//   gltf.scene.position.y = 8.7;
+//   gltf.scene.position.z = -0.3;
+// 	scene.add( gltf.scene );
 
-	console.error( error );
+// }, undefined, function ( error ) {
 
-} );
+// 	console.error( error );
+
+// } );
+// loader.load( 'wheel.glb', function ( gltf ) {
+// 	wheel4 = gltf.scene;
+
+//   gltf.scene.position.x = 6.5;
+//   gltf.scene.position.y = 8.7;
+//   gltf.scene.position.z = 1.7;
+// 	scene.add( gltf.scene );
+
+// }, undefined, function ( error ) {
+
+// 	console.error( error );
+
+// } );
+
+//   loader.load( 'wheel.glb', function ( gltf ) {
+// 	wheel2 = gltf.scene;
+//   gltf.scene.scale.set(0.5, 0.5, 0.5);
+//   gltf.scene.position.x = 6.9;
+//   gltf.scene.position.y = 10;
+//   gltf.scene.position.z = 0.7;
+// 	scene.add( gltf.scene );
+
+// }, undefined, function ( error ) {
+
+// 	console.error( error );
+
+// } );
+
+
   
 loader.load( 'suitcase.glb', function ( gltf ) {
 	gltf.scene.scale.set(3, 3, 3);
@@ -173,7 +225,7 @@ loader.load( 'suitcase.glb', function ( gltf ) {
 
 } );
 loader.load( 'floor.glb', function ( gltf ) {
-	// gltf.scene.scale.set(3, 3, 3);
+	gltf.scene.scale.set(1, 1, 1.5);
 	wall = gltf.scene;
 	gltf.scene.position.x = 0;
 	gltf.scene.position.z = -4;
@@ -201,20 +253,20 @@ loader.load( 'chair.glb', function ( gltf ) {
 
 } );
 
-loader.load( 'floorreal.glb', function ( gltf ) {
-	// // gltf.scene.scale.set(3, 3, 3);
-	// wall = gltf.scene;
-	gltf.scene.position.x = 0;
-	gltf.scene.position.z = -4;
-	gltf.scene.position.y = -0.01;
+// loader.load( 'floorreal.glb', function ( gltf ) {
+// 	// // gltf.scene.scale.set(3, 3, 3);
+// 	// wall = gltf.scene;
+// 	gltf.scene.position.x = 0;
+// 	gltf.scene.position.z = -4;
+// 	gltf.scene.position.y = -0.01;
 	
-	scene.add( gltf.scene );
+// 	scene.add( gltf.scene );
 
-}, undefined, function ( error ) {
+// }, undefined, function ( error ) {
 
-	console.error( error );
+// 	console.error( error );
 
-} );
+// } );
 
   
   //animation
@@ -247,13 +299,13 @@ function animate(){
   requestAnimationFrame( animate );
 	controls.update(); 
 	wheel.rotation.z += 0.01;
-	
-	if(up == false){
-	getup();
-	}
-	else if(up == true){
-	nevermind();
-	}
+	wheel2.rotation.z += 0.01;
+	// if(up == false){
+	// getup();
+	// }
+	// else if(up == true){
+	// nevermind();
+	// }
 	
   renderer.render(scene, camera);
 }
