@@ -1,4 +1,4 @@
-import * as THREE from "../node_modules/three/build/three.module.js;
+import * as THREE from "../node_modules/three/build/three.module.js";
 import {OrbitControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r122/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from '../node_modules/examples/jsm/loaders/GLTFLoader.js';
 import { Reflector } from '../node_modules/examples/jsm/objects/Reflector';
