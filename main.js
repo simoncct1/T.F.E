@@ -1,7 +1,7 @@
 import * as THREE from "../node_modules/three/build/three.module.js
 import {OrbitControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r122/examples/jsm/controls/OrbitControls.js';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { Reflector } from 'three/examples/jsm/objects/Reflector';
+import { GLTFLoader } from '../node_modules/examples/jsm/loaders/GLTFLoader.js';
+import { Reflector } from '../node_modules/examples/jsm/objects/Reflector';
 
 let groundMirror, verticalMirror;
 const scene = new THREE.Scene();
